@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<report id="stock_register_report" string="Stock Register Report"
+			model="stock.register.tran" report_type="qweb-pdf" file="job_order_process.stock_register_report_new"
+			name="job_order_process.stock_register_report_new" menu="True"/>
+		<template id="report_stock_register">
+     	<xpath expr="//style" position="after">
+     		<style type="text/css" >
+                    .tabla {
+                        cellpadding: 10;
+                        border: 1px solid black;
+                    }
+            </style>
+        </xpath>
+  		</template>
+
+   		<record id="paperformat_stock_register_report" model="report.paperformat">
+        	<field name="name">Stock Register</field>
+           	<field name="orientation">Landscape</field>
+           	<field name="margin_bottom">5</field>
+            <field name="margin_top">5</field>
+			<field name="margin_left">5</field>
+			<field name="margin_right">0</field>
+    		</record>
+
+    	<record id="stock_register_report" model="ir.actions.report">
+        	<field name="paperformat_id" ref="paperformat_stock_register_report"/>
+    	</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		 <!-- Sequance generate -->
+
+        <record id="seq_job_challan_code" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_job_challan_code1" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan1</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_job_challan_code2" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan2</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_job_challan_code3" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan3</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_job_challan_code4" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan4</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_job_challan_code_receipt" model="ir.sequence">
+            <field name="name">Job Order Challan</field>
+            <field name="code">job_order_challan_receipt</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+
+        <record id="seq_job_order_no" model="ir.sequence">
+            <field name="name">Job Order</field>
+            <field name="code">job_order</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_challan_bill" model="ir.sequence">
+            <field name="name">Challan Bill</field>
+            <field name="code">challan_bill</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+        <record id="seq_batch_inspection" model="ir.sequence">
+            <field name="name">Inspection</field>
+            <field name="code">joborder_inspection</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_batch_production" model="ir.sequence">
+            <field name="name">Production</field>
+            <field name="code">joborder_production</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+         <record id="seq_reconcilation" model="ir.sequence">
+            <field name="name">Reconcilation</field>
+            <field name="code">reconcilation</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+        </record>
+
+	</data>
+</odoo>

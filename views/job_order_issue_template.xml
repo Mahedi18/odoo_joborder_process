@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="job_order_issue_first">
+            <t t-set="data_report_margin_top" t-value="37"/>
+            <t t-set="data_report_header_spacing" t-value="0"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+                    <div class="article">
+                        <style>
+                            html *
+                            {
+                                font-size: 10;
+                                font-family: Courier New;
+                            }
+                        </style>
+<!--                        Times and Roman-->
+<!--                        verdana-->
+<!--                        Courier-->
+<!--                        Courier New-->
+
+<!--                        <style>-->
+<!--                            hr { width:100%; height:1px; background: #fff;}-->
+<!--                        </style>-->
+                        <table style="width:90%">
+                            <tr style="height:35px;">
+                                <td style="padding-right:5px;width:10%">
+                                        <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        <span t-field="o.name"/>
+
+
+                                </td>
+                                <td style="width:5%">
+                                    <span t-field="o.challan_type"/>
+                                </td>
+                                <td style="width:27%"></td>
+                                <td style="text-align:left;width:22%">
+                                    <span t-field="o.date"/>
+                                </td>
+                                <td style="width:25%">
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="width:53%;margin-left:0px;height:20px;">
+                                            <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        <span t-field="o.partner_id.name"/><br/>
+                                        <span t-field="o.partner_id.street"/>
+                                        <span t-field="o.partner_id.street2"/>
+                                        <span t-field="o.partner_id.city"/>,
+                                        <span t-field="o.partner_id.state_id.name"/>
+<!--                                        <span t-field="o.partner_id.state_id.code"/>-->
+                                </td>
+                                <td style="width:2%"></td>
+                                <td style="text-align:left;width:25%">
+                                    <t t-esc="o.get_challna_line_po()"/>
+                                    <br/>
+                                    <span t-field="o.partner_id.vat"/>
+                                    <br/>
+                                    <span t-field="o.vehicle_no.name"/>
+                                </td>
+                                <td style="text-align:left;width:15%;">
+                                    <t t-esc="o.get_challna_line_podate()"/>
+                                    <br/>
+                                    <span t-field="o.time"/>
+                                    <br/>
+
+                                </td>
+                                <td style="width:5%">
+                                    <pre/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;margin-top:48px;">
+                            <t t-set="tnqty" t-value="0"/>
+                            <t t-set="tqty" t-value="0"/>
+                            <t t-set="total" t-value="0"/>
+                            <t t-foreach="o.challan_line" t-as="l">
+                                <tr style="height:20px;">
+                                    <td style="width:4%;">
+<!--                                        <t t-esc="l.party_challan.name"/>-->
+                                        <t t-esc="o.get_receiptChallanNo(l.party_challan.name)"/>
+                                        <br/>
+                                        <span t-field="l.party_challan.date" t-field-options='{"format": "dd/MM/y"}'/>
+                                    </td>
+                                    <td style="width:31%;">
+                                        <t t-esc="l.product_id.name"/>
+                                        <t t-esc="l.product_id.part_no"/>
+                                    </td>
+                                    <td style="text-align:center;width:4%;">
+                                        <span t-field="l.hsn_code"/>
+                                    </td>
+                                    <td style="text-align:right;width:7%;">
+                                        <span t-field="l.qty_nos"/>
+                                    </td>
+                                        <t t-set="tnqty" t-value="tnqty + l.qty_nos"/>
+                                    <td style="text-align:right;width:7%;">
+                                        <span t-field="l.qty_kg"/>
+                                    </td>
+                                        <t t-set="tqty" t-value="tqty + l.qty_kg"/>
+                                    <td style="text-align:right;width:5%;">
+<!--                                        <span t-field="l.qty_nos"/>-->
+                                    </td>
+                                    <td style="text-align:right;width:5%;">
+                                        <span t-field="l.material_price"/>
+                                    </td>
+                                    <td style="text-align:right;width:10%;">
+                                        <span t-esc="'%.2f'%(l.price_subtotal)"/>
+                                    </td>
+                                    <td style="width:10%;">
+                                        <pre/>
+                                    </td>
+                                        <t t-set="total" t-value="total +l.price_subtotal "/>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td style="border-top:1px solid black;border-bottom:1px solid black;"></td>
+                                <td style="border-top:1px solid black;border-bottom:1px solid black;">Total</td>
+                                <td style="border-top:1px solid black;border-bottom:1px solid black;"></td>
+                                <td style="text-align:right;border-top:1px solid black;border-bottom:1px solid black;">
+                                    <t t-esc="tnqty"/>
+                                </td>
+                                <td style="text-align:right;border-top:1px solid black;border-bottom:1px solid black;">
+                                    <t t-esc="tqty"/>
+                                </td>
+                                <td style="border-top:1px solid black;border-bottom:1px solid black;"></td>
+                                <td style="border-top:1px solid black;border-bottom:1px solid black;"></td>
+                                 <td style="text-align:right;border-top:1px solid black;border-bottom:1px solid black;">
+                                    <t t-esc="'%.2f'%(total)"/>
+                                </td>
+                                <td></td>
+
+                            </tr>
+                        </table>
+                        <div class="footer">
+                            <span style="float:left; padding-left:200px;width:800px">
+                                <h5>Prepared By:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Checked By:
+                                </h5>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

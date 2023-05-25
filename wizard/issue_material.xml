@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--  Issue Material -->
+
+        <record id="view_issue_material" model="ir.ui.view">
+            <field name="name">Issue Material</field>
+            <field name="model">issue.material</field>
+            <field name="arch" type="xml">
+                <form string="Issue Material">
+                   <field name="issue_material_line">
+                    <tree string="Material Line" editable="bottom">
+           			<field name="select"/>
+           			<field name="product_id" readonly="0"/>
+                        <field name="qty"/>
+                        <field name="hsn_code"/>
+                        <field name="unit_price"/>
+
+           			<field name="uom_id" readonly="0"/>
+                        <field name="tax_id"/>
+           			</tree>
+
+           			</field>
+                    <footer>
+                        <button name="material_issue" type="object" string="Issue" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+    </data>
+</openerp>

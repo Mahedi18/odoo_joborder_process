@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<template id="challan_status_report_first">
+			<t t-set="data_report_margin_top" t-value="20"/>
+			<t t-set="data_report_header_spacing" t-value="15.5"/>
+			<t t-foreach="docs" t-as="o">
+				<div class="header"/>
+			<div class="footer">
+
+				<div class="text-right" >
+				<ul class="list-inline">
+					<li>Page:</li>
+					<li><span class="page"/></li>
+					<li>/</li>
+					<li><span class="topage"/></li>
+					</ul>
+					</div>
+					</div>
+
+				<t t-call="web.external_layout">
+			<div class="page" style="border:1px solid black; margin-top:30px; height:1100px;">
+
+				<center>
+                    <br/><h1 style="line-height:0.4;"><strong><span t-field="o.user_id.company_id.name"/></strong></h1>
+
+				<h5 style="line-height:0.4;"><span t-field="o.user_id.company_id.street"/>, <span t-field="o.user_id.company_id.street2"/>, <span t-field="o.user_id.company_id.city"/>
+				<span t-field="o.user_id.company_id.state_id.name"/> </h5>
+				<h5>GSTIN NO : <span t-field="o.user_id.company_id.vat"/>, Phone: <span t-field="o.user_id.company_id.phone"/></h5>
+                    <h5>From : <span t-field="o.from_date"/> To : <span t-field="o.to_date"/></h5>
+					<h5><b>Challan Wise Status</b></h5>
+                <h3 ><b> Party Name : <span t-field="o.partner_id"/></b></h3>
+
+				</center>
+
+				<table STYLE=" width: 100%; text-align: left;">
+				<style>
+					table, th,td{
+
+					border- collape:collape;
+					}
+					tr:nth-child(even) {background-color: #f2f2f2}
+				</style>
+				<style>
+					th{text-align: left;
+					}
+					</style>
+
+				<tr style="border-bottom: 1px solid black; border-top: 1px solid black;">
+					<th>S.No.</th>
+    				<th>Ch. No.</th>
+					<th>Date</th>
+    				<th>Issue Qty</th>
+					<th>Receive Qty</th>
+    				<th>Remaining qty</th>
+
+
+    			</tr>
+					<t t-set="i" t-value="1"/>
+    			    <t t-foreach="o.get_challan_name()" t-as="p">
+				    <tr>
+						<td><span t-esc="i"/></td>
+    					<t t-set="i" t-value="i+1"/>
+						<td><span t-raw="o.get_name(p)"/></td>
+						<td><span t-raw="o.get_date(p)"/></td>
+					    <td><span t-raw="o.get_issue(p)"/></td>
+						<td><span t-raw="o.get_receive(p)"/></td>
+
+						<td><span t-raw="o.get_remaining(p)"/></td>
+
+    				</tr>
+					</t>
+                    <th>Total</th>
+                            <th></th>
+							<th></th>
+                            <th><span t-field="o.total_issue"/></th>
+		    				<th><span t-field="o.total_receive"/></th>
+		    				<th><span t-raw="o.get_total_remaing()"/></th>
+    			</table>
+
+			</div>
+			</t>
+			</t>
+		</template>
+
+	</data>
+</openerp>

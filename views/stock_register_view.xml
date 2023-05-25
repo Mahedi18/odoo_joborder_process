@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_register_form1" model="ir.ui.view">
+            <field name="name">stock register</field>
+            <field name="model">stock.register</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Stock Register Form">
+                    <header>
+<!--                        <button name="action_party_challan_wise_stock" string="Party Challan Wise Stock Status" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button name="action_productsummarytotalDailyRecIssue"-->
+<!--                                string="Product Summary RecIssue-Marketing" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button name="action_excelexport" string="Product Export Excel" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button name="action_productsummarytotal" string="Product Summary Total" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button name="get_total_issue_receive" string="Total Issue Receive" type="object"-->
+<!--                                class="btn-primary"/>-->
+<!--                        <button name="action_get_issue_receive_datasummarytotal" string="" type="object" class="btn-primary"/>-->
+                        <button name="action_get_receive_data" string="Challan Recivie Data" type="object" class="btn-primary"/>
+                        <button name="action_get_issue_data" string="Challan Issue Data" type="object" class="btn-primary"/>
+                        <button name="action_stoc_in_hand_final" string="Stock In Hand" type="object" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <separator string="Stock Register" colspan="4"/>
+                        <group col="4">
+
+                            <field name="challan_type"/>
+                            <field name="name" invisible="1"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <field name="partner_id" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="challan_status"/>
+                            <field name="party_challan" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                            <field name="file"/>
+
+                        </group>
+                        <notebook>
+                            <page string="Party Challan Wise Stock Status" autofocus="1">
+                                <field name="stock_register_line">
+                                    <tree string="job order line" editable="bottom" default_order="date">
+                                        <field name="partner_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="party_challan" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="date"/>
+                                        <field name="our_challans" widget="many2many_tags"
+                                               options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="part_no" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="unit_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="rec_qty" sum="trqty"/>
+                                        <field name="issue_qty" sum="tiqty"/>
+                                        <!--                            <field name="rem_qty" sum="tbqty"/>-->
+                                        <field name="qty_balnew" invisible="0" sum="tbqty" string="Bal Qty"/>
+
+
+                                    </tree>
+                                </field>
+                            </page>
+<!--                             <page string="Total Issue Receive">-->
+<!--                                <field name="total_issue_line" nolabel="1">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="total_receive" sum="trqty"/>-->
+<!--                                        <field name="total_issue" sum="tiqty"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+                             <page string="Stock In Hand " autofocus="1">
+
+                                <field name="stock_product_summary_ids" nolabel="1">
+                                    <tree create="false">
+                                        <field name="partner_id"/>
+                                        <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="unit_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="opening" sum="tob"/>
+                                        <field name="closing" sum="tcb"/>
+                                        <field name="rec_qty" sum="trqty"/>
+                                        <field name="issue_qty" sum="tiqty"/>
+                                        <field name="qty_balnew" invisible="0" sum="tbqty" string="Diff(Rec-Iss)"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                             <page string="Challan Receive Data">
+                                <field name="challan_receive_line_id" nolabel="1" >
+                                    <tree create="false">
+                                        <field name="partner_id"/>
+<!--                                        <field name="party_challan" string="Party Chno."/>-->
+<!--                                        <field name="billed"/>-->
+                                        <field name="state"/>
+                                        <field name="challan_receive_id" string="Party ChNo."/>
+                                        <field name="date"/>
+                                        <field name="product_id"/>
+                                        <field name="unit_id"/>
+                                        <field name="qty" sum="tqty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                             <page string="Challan Issue Data">
+                                <field name="challan_line_id" nolabel="1" >
+                                    <tree create="false">
+                                        <field name="partner_id"/>
+                                        <field name="party_challan" string="Party Chno."/>
+                                        <field name="billed"/>
+                                        <field name="state"/>
+                                        <field name="challan_issue_id" string="ChNo."/>
+                                        <field name="date"/>
+                                        <field name="product_id"/>
+                                        <field name="unit_id"/>
+                                        <field name="qty" sum="tqty"/>
+                                    </tree>
+                                </field>
+                            </page>
+<!--                            <page string="Stock in Hand">-->
+<!--                                <field name="sih_ids" nolabel="1" >-->
+<!--                                    <tree create="false">-->
+<!--                                        <field name="partner_id"/>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="remarks"/>-->
+<!--                                        <field name="unit_id"/>-->
+<!--                                        <field name="opening" sum="top"/>-->
+<!--                                        <field name="rec_qty" sum="trec"/>-->
+<!--                                        <field name="iss_qty" sum="tiss"/>-->
+<!--                                        <field name="closing" sum="tcbal"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="stock_register_tree_view1" model="ir.ui.view">
+            <field name="name">Stock Register</field>
+            <field name="model">stock.register</field>
+            <field name="arch" type="xml">
+                <tree string="Tree">
+                    <field name="challan_type"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="partner_id"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="stock_register_search_view" model="ir.ui.view">
+            <field name="name">Challan filter record</field>
+            <field name="model">stock.register</field>
+            <field name="arch" type="xml">
+                <search string="Stock">
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+                    <field name="product_id"/>
+                    <field name="challan_type"/>
+                    <field name="from_date"/>
+                    <field name="to_date"/>
+                    <field name="party_challan"/>
+                    <group expand="0" string="Group By">
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="product_id" string="Product Name" context="{'group_by':'product_id'}"/>
+                        <filter name="from_date" string="From Date" context="{'group_by':'from_date'}"/>
+                        <filter name="to_date" string="To Date" context="{'group_by':'to_date'}"/>
+                        <filter name="party_challan" string="Challan No." context="{'group_by':'party_challan'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="action_stock_register1" model="ir.actions.act_window">
+            <field name="name">Stock Register</field>
+            <field name="res_model">stock.register</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="stock_register_tree_view1"/>
+            <field name="context">{'model': 'stock.register'}</field>
+            <field name="search_view_id" ref="stock_register_search_view"/>
+        </record>
+        <!--	<menuitem id="menu_stock_register1" name="Stock Register" parent="my_joborder_menu1"/>-->
+        <menuitem id="menu_stock_register2" action="action_stock_register1" name="Stock Register"
+                  parent="my_joborder_menu1"/>
+    </data>
+</odoo>

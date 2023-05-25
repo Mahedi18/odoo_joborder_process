@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+		<!-- challan Form View -->
+			<record id ="challan_form_view1" model="ir.ui.view">
+			<field name="name">Challan</field>
+			<field name="model">joborder.challan</field>
+			<field name="arch" type="xml">
+			<form string="Joborder challan form" create="1" delete="1">
+				<header>
+					<button name="action_fetch_receipt_data"  string="Fetch" class="btn-primary" type="object" states="draft"/>
+                    <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary" type="object" states="draft"/>
+					<button name="action_create_bill" string="Create Bill" class="btn-primary" type="object" attrs="{'invisible':['|','|',('state','=','draft'),('billed','=',True),('challan_type','!=','regular')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                </header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+                    <button type="object"
+                        name="action_gen_invoice"
+                        class="oe_stat_button"
+                        icon="fa-edit" string="Invoice"
+                         groups="base.group_user">
+                    </button>
+
+                    </div>
+
+					<h1><field name="name" class="oe_inline" attrs="{'readonly': [('state','not in', 'draft')]}"/></h1>
+
+				<group col="4" colspan="4">
+					<group col="2" colspan="2">
+						 <field name="partner_id" attrs="{'readonly': ['|',('billed','=', True),('state','not in', 'draft')]}" options="{'no_create_edit':False,'no_create':False}"/>
+						<field name="challan_type" attrs="{'readonly': ['|',('billed','=', True),('state','not in', 'draft')]}"/>
+						<field name="vehicle_no" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+						<field name="payment_term_recs" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+
+					</group>
+					<group col="2" colspan="2">
+                        <field name="date" attrs="{'readonly': ['|',('billed','=', True),('state','not in', 'draft')]}"/>
+						<field name="id"/>
+						<!--<field name="origin" attrs="{'readonly': [('billed','=', True)]}"/>-->
+						<!--<label for="ref_challan"/>-->
+						<!--<div class="o_row">-->
+						<!--<field name="ref_challan" widget="many2many_tags" options="{'no_create_edit':False,'no_create':False}" attrs="{'readonly': [('billed','=', True)]}"/>-->
+						<!--<button name="action_fetch_data" string="Fetch Data" type="object" class="oe_highlight"/>-->
+						<!--</div>-->
+<!--						<field name="job_order_challan_reference"/>-->
+<!--						<field name="production_challan_reference"/>-->
+						<field name="billed" readonly="1"/>
+						<field name="user_id" invisible="1"/>
+						<field name="description" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+						<field name="time" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+
+
+					</group>
+
+				</group>
+					<notebook>
+							<page string="Issue Product">
+					<field name="challan_line" attrs="{'readonly': ['|',('billed','=', True),('state','not in', 'draft')]}">
+						<tree string="Challan_Line" editable="bottom">
+							<field name="job_order_id" required="1"/>
+<!--							<field name="product_id1" options="{'no_create_edit':False,'no_create':False}"/>-->
+							<field name="product_id" options="{'no_create_edit':False,'no_create':False}" />
+
+							<field name="name"/>
+							<!--<field name="party_challan" options="{'no_create_edit':False,'no_create':False}"/>-->
+							<field name="party_challan"/>
+							<field name="part_no" options="{'no_create_edit':False,'no_create':False}"/>
+						    <field name="hsn_code"/>
+						    <field name="qty" sum="Total Qty"/>
+							<field name="unit_id" options="{'no_create_edit':False,'no_create':False}"/>
+							<field name="material_price" readonly="0"/>
+<!--							<field name="unit_price" string="Rate(jw)"/>-->
+
+<!--                            <field name="tax_id" options="{'no_create_edit':False,'no_create':False}"/>-->
+                            <field name="price_subtotal" readonly="1"/>
+<!--                            <field name="material_cost"/>-->
+						</tree>
+
+					</field>
+								<group class="oe_subtotal_footer oe_right" colspan="2">
+						<field name="amount_untaxed"/>
+						<field name="tax_value"/>
+						<!--<field name="total_amount"/>-->
+						<div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="total_amount"/>
+						</div>
+						<field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary"/>
+
+
+
+					</group>
+							</page>
+<!--						<page string="other Info">-->
+<!--							<group col="4">-->
+<!--								-->
+<!--							</group>-->
+<!--						</page>-->
+
+					</notebook>
+
+
+				</sheet>
+
+			</form>
+
+			</field>
+           </record>
+
+           <record id="challan_tree_view1" model="ir.ui.view">
+           <field name="name">Challan</field>
+		   <field name="model">joborder.challan</field>
+		   <field name="arch" type="xml">
+		   <tree string="Challan Tree" create="1" delete="1" decoration-success="state=='confirm'">
+			   <field name="id"/>
+			   <field name="name"/>
+			   <field name="date"/>
+			   <field name="partner_id"/>
+			   <field name="challan_type"/>
+			   <field name="billed"/>
+			   <field name="state"/>
+			   <field name="user_id"/>
+			   <field name="mast_oldid"/>
+<!--			   <field name="chno"/>-->
+           </tree>
+           </field>
+           </record>
+		<record id ="challan_issue_search_view" model="ir.ui.view">
+            <field name="name">Challan Issue filter record</field>
+            <field name="model">joborder.challan</field>
+            <field name="arch" type="xml">
+                <search string="Challan Issue">
+                    <field name="state"/>
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+                    <field name="name"/>
+					<field name="challan_type"/>
+                     <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="confirm" string="Confirm" domain="[('state', '=', 'confirm')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                        <filter name="date" string="Date" context="{'group_by':'date'}"/>
+						<filter name="challan_type" string="Type" context="{'group_by':'challan_type'}"/>
+
+                    </group>
+                </search>
+            </field>
+        </record>
+           <!--Challan  Action -->
+           <record id="action_challan" model="ir.actions.act_window">
+           <field name="name">Challan Issue</field>
+           <field name="res_model">joborder.challan</field>
+           <field name="type">ir.actions.act_window</field>
+           <field name="view_type">form</field>
+           <field name="view_model">tree,form</field>
+           <field name="view_id" ref="challan_tree_view1"/>
+			    <field name="search_view_id" ref="challan_issue_search_view"/>
+           </record>
+           <!-- Challan Menu -->
+
+			<menuitem id="challan_menu1" name="Challan Issue" parent="my_joborder_menu1" action="action_challan" sequence="6"/>
+
+
+</data>
+	</odoo>

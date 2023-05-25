@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<report id="report_joborder_report_item"
+			string="Challan Summary Report"
+			model="job.order.report"
+			report_type="qweb-pdf"
+			file="job_order_process.joborder_report_first"
+			name="job_order_process.joborder_report_first" menu="True"/>
+
+
+	</data>
+
+
+</openerp>

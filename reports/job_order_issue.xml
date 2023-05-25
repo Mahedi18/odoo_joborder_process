@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <report id="report_tax_invoice_item"
+                string="Challan"
+                model="joborder.challan"
+                report_type="qweb-pdf"
+                file="job_order_process.job_order_issue_first"
+                name="job_order_process.job_order_issue_first" menu="True"/>
+
+        <report id="report_dispatch_advice"
+                string="Dispatch Advice"
+                model="dispatch.advice"
+                report_type="qweb-pdf"
+                file="job_order_process.report_template_dispatch_advice"
+                name="job_order_process.report_template_dispatch_advice" menu="True"/>
+
+        <template id="report_challan_issue">
+            <xpath expr="//style" position="after">
+                <style type="text/css">
+                    .tabla {
+                    cellpadding: 10;
+                    border: 1px solid black;
+                    }
+                </style>
+            </xpath>
+        </template>
+
+        <record id="paperformat_challan_issue_report" model="report.paperformat">
+            <field name="name">Job Work Challan</field>
+            <field name="format">custom</field>
+            <field name="page_height">153</field>
+            <field name="page_width">254</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_bottom">8</field>
+            <field name="margin_top">30</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">4</field>
+        </record>
+
+        <record id="report_tax_invoice_item" model="ir.actions.report">
+            <field name="paperformat_id" ref="paperformat_challan_issue_report"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- challan Receipt Form View -->
+        <record id="challan_receipt_form_view1" model="ir.ui.view">
+            <field name="name">Challan Receipt</field>
+            <field name="model">joborder.challan.receipt</field>
+            <field name="arch" type="xml">
+                <form string="Joborder challan receipt form">
+                    <header>
+                        <!--					<button name="action_confirm_test" groups="job_order_process.group_job_order_confirm" states="draft" string="Confirm test" type="object" class="oe_highlight"/>-->
+                        <button name="action_confirm"
+                                groups="job_order_process.group_job_order_process,job_order_process.group_challan_receipt_confirm"
+                                states="draft" string="Confirm" type="object" class="oe_highlight"/>
+                        <button name="action_generate" string="Print" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state','not in', 'confirm')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done" readonly="1"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_inspection_history" type="object"
+                                    attrs="{'invisible':[('inspection_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="inspection_count" widget="statinfo" string="Inspection"/>
+                            </button>
+                            <button name="open_production_history" type="object"
+                                    attrs="{'invisible':[('production_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="production_count" widget="statinfo" string="Production"/>
+                            </button>
+                            <button name="open_final_inspection_history" type="object"
+                                    attrs="{'invisible':[('final_inspection_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="final_inspection_count" widget="statinfo" string="Final Inspection"/>
+                            </button>
+                            <button name="open_challan_issue_history" type="object"
+                                    attrs="{'invisible':[('challan_issue_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="challan_issue_count" widget="statinfo" string="Challan Issue"/>
+                            </button>
+                        </div>
+
+                        <h2>
+
+                        </h2>
+                        <group col="6" colspan="6">
+                            <group col="2" colspan="2">
+
+                                <field name="name" class="oe_inline" readonly="0"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}" string="Challan No."/>
+                                <field name="partner_id" attrs="{'readonly': [('state','not in', 'draft')]}"
+                                       options="{'no_create_edit':True,'no_create':True}"/>
+                                <field name="gate_entryno" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="remark" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+
+                                <!--<field name="job_order_id" attrs="{'readonly': [('state','not in', 'draft')]}" options="{'no_create_edit':False,'no_create':False}" required="1"/>-->
+                                <!--<field name="partner_id" attrs="{'readonly': [('state','not in', 'draft')]}" options="{'no_create_edit':True,'no_create':True}"/>-->
+                            </group>
+                            <group col="2" colspan="2">
+                                <!--						<field name="date" invisible="1"/>-->
+                                <field name="date" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="challan_type" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="gate_entrydate" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="mast_oldid"/>
+
+
+                                <!--						<field name="total_receive"  "total_issue"/>-->
+                                <!--<field name="remaining_total"/>-->
+
+
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="id" readonly="1"/>
+                                <field name="total_rec" readonly="1" string="Confirm Total Rec"/>
+                                <field name="total_iss" readonly="1" string="Confirm Total Iss"/>
+                                <field name="total_bal" readonly="1"/>
+                                <!--						<field name="total_remaining" readonly="1"/>-->
+
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Receive Product">
+
+                                <field name="joborder_challan_receipt_lines"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}">
+                                    <tree string="joborder_challan_receipt_line" editable="bottom">
+                                        <field name="job_order_id" required="1" string="JobOrderNO"/>
+                                        <field name="product_id" options="{'no_create_edit':True,'no_create':False}"
+                                               required="1" string="Product_Desc"/>
+                                        <field name="batch_no" invisible="1"/>
+                                        <field name="per_piece" readonly="1"/>
+                                        <field name="no_of_bin" readonly="1" string="Bins"/>
+                                        <field name="packing_id" readonly="1"/>
+                                        <field name="process"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open': True,}"/>
+                                        <field name="hsn_code" readonly="1"/>
+                                        <field name="sac_code" readonly="1"/>
+                                        <field name="unit_id"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open': True,}"/>
+                                        <field name="qty" sum="TQty"/>
+                                        <field name="unit_price" readonly="1"/>
+                                        <field name="material_price"/>
+                                        <field name="tax_id" string="Gst_Detail"/>
+                                        <field name="price_subtotal"/>
+                                        <field name="issue_qty" sum="IQty" readonly="1" string="Desp Qty"/>
+                                        <!--							<field name="remaining_qty" sum="BQty" string="RemQty" readonly="1"/>-->
+                                        <field name="bal_qtynew" sum="bqtyn" readonly="1" string="Bal Qty"/>
+                                        <field name="part_no" readonly="1"/>
+                                    </tree>
+
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2">
+                                    <!--								<field name="total_receive"/>-->
+                                    <field name="amount_untaxed"/>
+                                    <field name="tax_value"/>
+                                    <!--<field name="total_amount"/>-->
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                           widget="monetary"/>
+
+
+                                </group>
+                            </page>
+                            <page string="Issue Product" readonly="1">
+                                <!--							<field name="qty" sum="Total Qty"/>-->
+                                <!--<field name="challan_line_ids" attrs="{'readonly': [('billed','=', True)]}">-->
+                                <field name="challan_line_ids" readonly="1">
+                                    <tree string="Challan_Line">
+                                        <!--										editable="bottom"-->
+                                        <!--                                        <field name="product_id1" options="{'no_create_edit':True,'no_create':True}"/>-->
+                                        <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <!--										<field name="state"/>-->
+                                        <field name="name"/>
+                                        <field name="challan_issue_id" options="{'no_open':False}"/>
+                                        <!--										<field name="order_id"/>-->
+                                        <field name="party_challan" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <!--                                        <field name="party_challan"/>-->
+                                        <!--										<field name="date"/>-->
+                                        <field name="part_no" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="hsn_code"/>
+                                        <field name="qty" sum="total qty"/>
+                                        <field name="unit_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="unit_price"/>
+
+
+                                        <field name="tax_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="price_subtotal"/>
+                                        <!--<field name="material_cost"/>-->
+                                    </tree>
+
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2">
+                                    <field name="amount_untaxed"/>
+                                    <field name="tax_value"/>
+                                    <!--<field name="total_amount"/>-->
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                           widget="monetary"/>
+
+
+                                </group>
+                            </page>
+                            <page string="qty" invisible="1">
+                                <tree>
+                                    <group>
+                                        <field name="inspected_ok_qty"/>
+                                        <field name="inspected_rejected_qty"/>
+                                        <field name="inspected_sort_qty"/>
+                                        <field name="inspected_return_ref"/>
+                                        <field name="production_ok_qty"/>
+                                        <field name="production_notok_qty"/>
+                                        <field name="production_rework_qty"/>
+                                        <field name="production_return_ref"/>
+                                    </group>
+                                </tree>
+                            </page>
+                            <page string="Challan Reconcilation" invisible="1">
+
+                                <field name="joborder_challan_receipt_lines_rec">
+                                    <tree string="joborder_challan_receipt_line_reconcilation">
+                                        <field name="job_order_id"/>
+                                        <field name="product_id"/>
+                                        <field name="part_no"/>
+                                        <field name="process"/>
+                                        <field name="qty" sum="Total Qty"/>
+                                        <field name="inspected_ok_qty_line" sum="InspOkQty"/>
+                                        <field name="inspected_sort_qty_line" sum="InspShQty"/>
+                                        <field name="inspected_rejected_qty_line" sum="InspRejQty"/>
+                                        <!--							<field name="inspected_return_ref_line"/>-->
+                                        <field name="production_insp_qty_line" sum="Uinsp"/>
+                                        <field name="production_rem_qty_line"/>
+                                        <field name="production_rework_qty_line" sum="rework"/>
+                                        <field name="production_notok_qty_line" sum="prodnotok"/>
+                                        <field name="production_ok_qty_line" sum="ProdOkQty"/>
+                                        <field name="production_desp_qty_line" sum="DespQty"/>
+
+                                        <!--							<field name="remaining_qty"/>-->
+                                        <!--							<field name="production_ok_qty_line"/>-->
+
+                                    </tree>
+
+                                </field>
+                            </page>
+                            <!--						========================                    -->
+
+                        </notebook>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record id="challan_receipt_tree_view1" model="ir.ui.view">
+            <field name="name">Challan Receipt</field>
+            <field name="model">joborder.challan.receipt</field>
+            <field name="arch" type="xml">
+                <tree string="Challan Receipt Tree" decoration-success="state=='confirm'">
+                    <field name="id" readonly="1" />
+                    <field name="mast_oldid"/>
+
+
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="gate_entryno"/>
+                    <field name="gate_entrydate"/>
+                    <field name="partner_id"/>
+                    <field name="challan_type"/>
+                    <field name="state"/>
+
+                    <field name="total_rec" sum="totalreceive"/>
+                    <!--					   <field name="total_issue" sum="total Issue"/>-->
+                    <field name="total_iss" sum="totalissue"/>
+                    <!--					   <field name="total_remaining" sum="Total Remaining" />-->
+                    <field name="total_bal" sum="Bal Total "/>
+                    <field name="remark"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="challan_receive_search_view" model="ir.ui.view">
+            <field name="name">Challan Receive filter record</field>
+            <field name="model">joborder.challan.receipt</field>
+            <field name="arch" type="xml">
+                <search string="Challan Receive">
+                    <field name="state"/>
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+                    <!--                    <field name="name"/>-->
+                    <!--					<field name="total_bal"/>-->
+                    <field name="challan_type"/>
+                    <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="confirm" string="Confirm" domain="[('state', '=', 'confirm')]"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                    <filter name="total_bal" string="Bal > 0" domain="[('total_bal', '>', 0)]"/>
+                    <!--					<filter name="total_bal" string="Daily MIS" domain="['|',('total_bal', '>', 0),('total_bal', '>', 0)]"/>-->
+                    <!--					['|',('billed','=', True),('state','not in', 'draft')]-->
+                    <filter name="today" string="Today" domain="[('date','=',time.strftime('%%Y-%%m-%%d'))]"/>
+                    <filter name="dailymis" string="Daily MIS Before 4 days to 20 days"
+                            domain="[
+					'&amp;',
+					('date','&lt;', (context_today() - datetime.timedelta(days=4)).strftime('%Y-%m-%d')),
+					('date','&gt;', (context_today() - datetime.timedelta(days=20)).strftime('%Y-%m-%d')),
+
+					]"
+                    />
+                    <!--					context="{'group_by':'partner_id'}"-->
+                    <filter name="total_bal" string="Bal = 0" domain="[('total_bal', '=', 0)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                        <filter name="date" string="Date" context="{'group_by':'date'}"/>
+                        <filter name="challan_type" string="Type" context="{'group_by':'challan_type'}"/>
+                        <filter name="dailymis" string="Daily MIS PartyWise"
+                                context="{'group_by':'partner_id'}"
+                                domain="[
+					'&amp;',
+					('date','&lt;', (context_today() - datetime.timedelta(days=4)).strftime('%Y-%m-%d')),
+					('date','&gt;', (context_today() - datetime.timedelta(days=20)).strftime('%Y-%m-%d')),
+					]"/>
+
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Challan  Action -->
+        <record id="action_challan_receipt" model="ir.actions.act_window">
+            <field name="name">Challan Receipt</field>
+            <field name="res_model">joborder.challan.receipt</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="challan_receipt_tree_view1"/>
+            <field name="search_view_id" ref="challan_receive_search_view"/>
+
+        </record>
+        <!-- Challan Menu -->
+
+        <menuitem id="my_joborder_menu1" name="Job Order Process"/>
+        <menuitem id="menu_mis" name="MIS" parent="my_joborder_menu1" sequence="20"/>
+        <menuitem id="challan_receipt_menu1" name="Challan Receipt" parent="my_joborder_menu1"
+                  action="action_challan_receipt" sequence="2"/>
+        <!--<menuitem id="inspection_receipt_menu1" name="Inspection" parent="job_order_process.my_joborder_menu1" action="action_challan_inspection_receipt" sequence="8"/>-->
+    </data>
+</odoo>

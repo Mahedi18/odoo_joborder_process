@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- challan Form View -->
+        <record id="challan_bill_form_view1" model="ir.ui.view">
+            <field name="name">Challan Bill</field>
+            <field name="model">challan.bill</field>
+            <field name="arch" type="xml">
+                <form string="challan bill form" create="1" delete="1">
+                    <!--<header>-->
+                    <!--<button name="action_receive" string="Receive" type="object" class="oe_highlight"/>-->
+                    <!--</header>-->
+                    <header>
+                        <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary"
+                                type="object" states="draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+
+                        <h1>
+                            <field name="name" class="oe_inline" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                        </h1>
+                        <group col="4" colspan="4">
+                            <group col="2" colspan="2">
+                                <field name="partner_id" attrs="{'readonly': [('state','not in', 'draft')]}"
+                                       options="{'no_create_edit':True,'no_create':True}"/>
+                                <field name="challan_issue" widget="many2many_tags"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}"
+                                       options="{'no_create' : True}"/>
+                                <button name="action_fetch_data" string="Fetch Data" type="object"
+                                        class="oe_highlight"/>
+<!--                                <field name="transportation_mode"/>-->
+
+                                <field name="vehicle_no" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="payment_term_ids" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="time"/>
+
+
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="id"/>
+                                <field name="date" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="job_order_id" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="job_order_date" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="eway_bill" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+
+                                <!--<field name="time"/>-->
+                                <!--<field name="transport"/>-->
+                                <!--<field name="vehicle_no"/>-->
+                                <field name="user_id" invisible="1"/>
+
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Product">
+                                <field name="challan_bill_line" >
+<!--                                    readonly="1"-->
+                                    <tree string="challan bill line" editable="bottom">
+                                        <field name="party_challan" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="our_challan" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="part_no" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="sac_code"/>
+                                        <field name="qty" sum="tqty"/>
+                                        <field name="unit_id" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="unit_price"/>
+                                        <field name="tax_id" widget="many2many_tags" options="{'no_create_edit':True,'no_create':True}"/>
+                                        <field name="price_subtotal" sum="tval"/>
+                                        <!--<field name="material_cost"/>-->
+                                    </tree>
+
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2">
+                                    <field name="amount_untaxed"/>
+                                    <field name="cartage_value" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                    <field name="tax_value"/>
+                                    <field name="round_amount"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                           widget="monetary"/>
+
+
+                                </group>
+                            </page>
+                            <page string="Other Info.">
+
+                                <group>
+                                    <group>
+
+                                        <field name="supply_date" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                        <field name="sgst_total" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                        <field name="cgst_total" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                        <field name="igst_total" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                    </group>
+                                    <group>
+
+
+                                    </group>
+                                </group>
+
+                            </page>
+
+                        </notebook>
+
+
+                    </sheet>
+
+                </form>
+
+            </field>
+        </record>
+
+        <record id="challan_bill_tree_view1" model="ir.ui.view">
+            <field name="name">Challan Bill</field>
+            <field name="model">challan.bill</field>
+            <field name="arch" type="xml">
+                <tree string="Challan Bill Tree" create="1" delete="1" decoration-success="state=='confirm'">
+                    <field name="id"/>
+                    <field name="name" string="Bill No"/>
+                    <field name="date"/>
+                    <field name="job_order_id"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="amount_untaxed" sum="tval"/>
+                    <field name="tax_value" sum="ttax"/>
+                    <field name="total_amount" sum="ttot"/>
+                    <field name="eway_bill"/>
+                    <field name="vehicle_no"/>
+<!--                    <field name="vehicle_no"/>-->
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id ="challan_bill_search_view" model="ir.ui.view">
+            <field name="name">Challan bill filter record</field>
+            <field name="model">challan.bill</field>
+            <field name="arch" type="xml">
+                <search string="Challan Bill">
+                    <field name="state"/>
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+
+                    <field name="name"/>
+                     <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="confirm" string="Confirm" domain="[('state', '=', 'confirm')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                        <filter name="date" string="Date" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Challan  Action -->
+        <record id="action_challan_bill" model="ir.actions.act_window">
+            <field name="name">Challan Bill</field>
+            <field name="res_model">challan.bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="challan_bill_tree_view1"/>
+            <field name="search_view_id" ref="challan_bill_search_view"/>
+        </record>
+
+        <record id="supplymentary_challan_bill_tree_view1" model="ir.ui.view">
+            <field name="name">SupplyMentary Challan Bill</field>
+            <field name="model">supplymentary.invoice</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="product_name"/>
+                    <field name="qty"/>
+                    <field name="old_rate"/>
+                    <field name="new_rate"/>
+                    <field name="unit_price"/>
+                    <field name="tax"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_supplymentary_challan_bill" model="ir.actions.act_window">
+            <field name="name">SupplyMentary Challan Bill</field>
+            <field name="res_model">supplymentary.invoice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="supplymentary_challan_bill_tree_view1"/>
+        </record>
+
+        <!-- Challan Menu -->
+
+        <menuitem id="challan_bill_menu1" name="Challan Bill" parent="my_joborder_menu1" action="action_challan_bill"
+                  sequence="7"/>
+
+<!--        <menuitem id="challan_bill_menu2" name="Supplymentary Challan Bill" parent="job_order_process.menu_mis" action="action_supplymentary_challan_bill" sequence="20"/>-->
+<!--        <menuitem id="challan_bill_menu2" name="Supplymentary Challan Bill" parent="my_joborder_menu1" action="action_supplymentary_challan_bill" sequence="7"/>-->
+
+
+    </data>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- challan Form View -->
+        <record id="dispatch_advice_form_view1" model="ir.ui.view">
+            <field name="name">Dispatch</field>
+            <field name="model">dispatch.advice</field>
+            <field name="arch" type="xml">
+                <form string="Dispatch Advice form" create="1" delete="1">
+                    <header>
+                        <button name="action_confirm" id="action_confirm" string="Confirm" class="btn-primary"
+                                type="object" states="draft"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <h1>
+                            <field name="name" class="oe_inline" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                        </h1>
+                        <group col="4" colspan="4">
+                            <group col="2" colspan="2">
+                                <field name="partner_id"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}"
+                                       options="{'no_create_edit':False,'no_create':False}"/>
+                                <field name="challan_type"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="vehicle_no" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="payment_term_recs" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="date"
+                                       attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="id"/>
+                                <field name="user_id" invisible="1"/>
+                                <field name="description" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="time" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Dispatch Advice Line">
+                                <field name="dispatch_advice_line" attrs="{'readonly': [('state','not in', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" options="{'no_create_edit':False,'no_create':False}"/>
+                                        <field name="name"/>
+                                        <field name="part_no" options="{'no_create_edit':False,'no_create':False}"/>
+                                        <field name="qty" sum="Total Qty"/>
+                                        <field name="unit_id" options="{'no_create_edit':False,'no_create':False}" readonly="0"/>
+                                        <field name="nature_of_process" string="Remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dispatch_advice_tree_view1" model="ir.ui.view">
+            <field name="name">Dispatch Tree</field>
+            <field name="model">dispatch.advice</field>
+            <field name="arch" type="xml">
+                <tree create="1" delete="1">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="challan_type"/>
+                    <field name="state"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dispatch_advice_search_view" model="ir.ui.view">
+            <field name="name">Dispatch Advice filter record</field>
+            <field name="model">dispatch.advice</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="state"/>
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+                    <field name="name"/>
+                    <field name="challan_type"/>
+                    <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="confirm" string="Confirm" domain="[('state', '=', 'confirm')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                        <filter name="date" string="Date" context="{'group_by':'date'}"/>
+                        <filter name="challan_type" string="Type" context="{'group_by':'challan_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Challan  Action -->
+        <record id="action_dispatch_advice" model="ir.actions.act_window">
+            <field name="name">Despatch Advice</field>
+            <field name="res_model">dispatch.advice</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_model">tree,form</field>
+            <field name="view_id" ref="dispatch_advice_tree_view1"/>
+            <field name="search_view_id" ref="dispatch_advice_search_view"/>
+        </record>
+        <!-- Challan Menu -->
+
+        <menuitem id="dispatch_advice_menu1" name="Despatch Advice" parent="my_joborder_menu1"
+                  action="action_dispatch_advice"
+                  sequence="5"/>
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!-- Wizard  Form View  -->
+
+	<record id="stock_register_form" model="ir.ui.view">
+		<field name="name">stock.register</field>
+		<field name="model">stock.register.tran</field>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+            <!--<button name="print_report" string="Sticker Landscape Report" type="object"/>-->
+
+
+			<form string="Stock Register Form">
+
+				<separator string="Stock Register" colspan="4" />
+				<group col="4">
+                    <field name="challan_type"/>
+                    <field name="from_date"/>
+					<field name="to_date"/>
+                    <field name="partner_id" options="{'no_create_edit':True,'no_create':True}"/>
+				</group>
+				<footer>
+                        <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+			</form>
+		</field>
+	</record>
+
+
+    <record id="action_stock_register" model="ir.actions.act_window">
+            <field name="name">Stock Register</field>
+            <field name="res_model">stock.register.tran</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+           <field name="view_id" ref="stock_register_form"/>
+           <field name="target">new</field>
+           <field name="context">{'model': 'stock.register'}</field>
+        </record>
+
+	<menuitem id="menu_stock_register1" name="Stock Register" parent="my_joborder_menu1"/>
+	<menuitem id="menu_stock_register2" action="action_stock_register" name="Stock Register" parent="menu_stock_register1" sequence="8"/>
+
+	</data>
+</odoo>

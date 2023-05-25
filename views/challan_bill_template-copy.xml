@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <template id="challan_bill_report_first">
+            <t t-set="data_report_margin_top" t-value="55"/>
+            <t t-set="data_report_header_spacing" t-value="0"/>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.html_container">
+                    <div class="article">
+                        <table style="width:100%">
+                                                    <tr>
+                                                        <td style="width:50%;border:1px solid black;margin-left:0px">
+
+
+                                                            <h6>
+                                                                <b>
+                                                                    <br/>
+                                                                    <span t-field="o.partner_id"/>
+                                                                </b>
+                                                            </h6>
+                                                            <h6>
+                                                                <span t-field="o.partner_id.street"/>
+                                                            </h6>
+                                                            <h6>
+                                                                <span t-field="o.partner_id.street2"/>
+                                                            </h6>
+                                                            <h6><span t-field="o.partner_id.city"/>,
+                                                                <span t-field="o.partner_id.state_id.name"/>
+                                                                |
+                                                                <span t-field="o.partner_id.state_id.code"/>
+                                                            </h6>
+                                                            <h6>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+                                                                &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;
+
+                                                                <span t-field="o.partner_id.vat"/>
+                                                            </h6>
+
+                                                        </td>
+                                                        <td style="width:10%;border:1px solid black;margin-left:0px"> <!--blank space between party name & invno-->
+
+                                                        </td>
+                                                        <td style="width:40%;border:1px solid black;margin-left:0px">
+                                                            <table style="width:100%;">
+                                                                <tr style="height:40px;">
+                                                                    <td  style="text-align:center;width:50%;border:1px solid black;margin-left:0px">
+                                                                        <span t-field="o.name"/>
+                                                                    </td>
+                                                                    <td  style="text-align:right;width:50%;border:1px solid black;margin-left:0px">
+                                                                        <span t-field="o.date"/>
+                                                                    </td>
+                                                                 </tr>
+                                                                <tr style="height:40px;">
+                                                                    <td   style="width:50%;border:1px solid black;margin-left:0px">
+
+                                                                    </td>
+                                                                    <td  style="width:50%;border:1px solid black;margin-left:0px">
+
+                                                                    </td>
+                                                                </tr>
+                                                                <tr style="height:40px;">
+                                                                    <td style="width:50%;border:1px solid black;margin-left:0px">
+
+                                                                    </td>
+                                                                    <td style="width:50%;border:1px solid black;margin-left:0px">
+                                                                        <span t-field="o.vehicle_no.name"/>
+                                                                    </td>
+
+                                                                </tr>
+                                                                <tr style="height:40px;">
+                                                                    <td style="width:50%;border:1px solid black;margin-left:0px">
+                            <span t-field="o.job_order_id.name"/>
+                                                                    </td>
+                                                                    <td style="width:50%;border:1px solid black;margin-left:0px">
+                        <span t-field="o.job_order_id.date"/>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                        </table>
+                        <!--              1          ======-->
+                        <table style="width:100%">
+                                         <tr style="height:40px;">
+                                                        <td style="width:50%;border:1px solid black;margin-left:0px">
+                                                            <pre/>
+                                                        </td>
+                                         </tr>
+                                                </table> <!--blank space-->
+                        <!--                2        ======-->
+                        <table style="width: 100%; text-align: left;"><!--   lines       ======-->
+                            <t t-set="tqty" t-value="0"/>
+                            <t t-set="tsubtotal" t-value="0"/>
+                            <t t-foreach="o.challan_bill_line" t-as="l">
+                                <table>
+                                    <tr style="height:25px;">
+                                        <td style="width:8.42%;border:1px solid black;margin-left:0px">
+                                            <span t-field="l.party_challan.name"/>
+                                                                                    <br/>
+                                                                        <span t-field="l.party_challan.date"/>
+                                        </td>
+                                        <td style="width:35.79%;border:1px solid black;margin-left:0px;text-align:left">
+                                            <span t-field="l.product_id.name"/>
+                                        </td>
+                                        <td style="width:7.37%;border:1px solid black;margin-left:0px;text-align:left">
+                                            <span t-field="l.our_challan.name"/>
+                                        <br/>
+                                            <span t-field="l.our_challan.name"/>
+
+                                        </td>
+                                        <td style="width:6.32%;border:1px solid black;margin-left:0px;text-align:center">
+                                            <span t-field="l.sac_code"/>
+                                        </td>
+                                        <td style="width:7.37%;border:1px solid black;margin-left:0px;text-align:right">
+                                            <span t-field="l.qty"/>
+                                        </td>
+                                        <td style="width:8.42%;border:1px solid black;margin-left:0px;text-align:left">
+                                <span t-field="l.unit_id.name"/>
+                                        </td>
+                                        <td style="width:8.42%;border:1px solid black;margin-left:0px;text-align:right">
+                                            <span t-field="l.unit_price"/>
+
+                                        </td>
+                                        <td style="width:18.42%;border:1px solid black;margin-left:0px;text-align:right">
+                                            <t t-esc="'%.2f'%(l.price_subtotal1)"/>
+                                        </td>
+                                        <t t-set="tsubtotal" t-value="tsubtotal + l.price_subtotal1"/>
+                                        <t t-set="tqty" t-value="tqty + l.qty"/>
+                                    </tr>
+                                </table>
+                            </t>
+                            <table style="width: 100%;">
+                                <tr style="border-top:1px solid black;border-bottom:1px solid black;">
+                                    <td style="width:57.89%;text-align: center;">Total</td>
+                                    <td style="width:7.36%;text-align: right;"><t t-esc="tqty"/></td>
+                                    <td style="width:35.26%;text-align: right;"><t t-esc="'%.2f'%(tsubtotal)"/></td>
+                                </tr>
+                            </table>
+
+                        </table>
+
+                        <div class="footer">
+                            <table style="width:100%" cellspacing="20" cellpadding="20">
+                                <tr>
+                                    <td style="padding-top: 1em;width:70%;text-align:left">
+                                        <br/>
+                                        <span t-field="o.amount_in_words"/> Only.
+                                    </td>
+                                    <td style="padding-top: 1em;width:15%;text-align:left">Taxable Amount</td>
+                                    <td style="padding-top: 1em;text-align:right;width:15%">
+                                        <t t-esc="'%.2f'%(o.amount_untaxed)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 0em;"/>
+                                    <td style="padding-top: 0em;">Round off</td>
+                                    <td style="padding-top: 0em;text-align:right;border:1 px solid black">
+                                        <t t-esc="'%.2f'%(o.round_amount)"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 1em;"/>
+                                    <td style="padding-top: 1em;">
+                                        <t t-if="o.cgst_total">
+                                            <span t-esc="o.challan_bill_line[0].tax_id.amt / 2"/>
+                                        </t>
+										<t t-if="not o.cgst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                    <td style="text-align:right;padding-top: 1em;">
+                                        <t t-if="o.cgst_total">
+                                            <t t-esc="'%.2f'%(o.cgst_total)"/>
+                                        </t>
+										<t t-if="not o.cgst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 1em;"/>
+                                    <td style="padding-top: 1em;">
+                                        <t t-if="o.sgst_total">
+                                            <span t-esc="o.challan_bill_line[0].tax_id.amt / 2"/>
+                                        </t>
+										<t t-if="not o.sgst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                    <td style="text-align:right;padding-top: 1em;">
+                                        <t t-if="o.sgst_total">
+                                            <t t-esc="'%.2f'%(o.sgst_total)"/>
+                                        </t>
+										<t t-if="not o.sgst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 1em;">Prepared By: <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>Checked By:
+                                    </td>
+                                    <td style="text-align:left;padding-top: 1em;height=40px">
+                                        <t t-if="o.igst_total">
+                                            <span t-esc="o.challan_bill_line[0].tax_id.amt"/>
+                                        </t>
+										<t t-if="not o.igst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                    <td style="text-align:right;padding-top: 1em;">
+                                        <t t-if="o.igst_total">
+                                            <t t-esc="'%.2f'%(o.igst_total)"/>
+                                        </t>
+										<t t-if="not o.igst_total">
+											<pre/>
+										</t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 1em;"/>
+                                    <td style="padding-top: 1em;">Total Amount:</td>
+                                    <td style="text-align:right;padding-top: 1em;">
+                                        <t t-esc="'%.2f'%(o.total_amount)"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

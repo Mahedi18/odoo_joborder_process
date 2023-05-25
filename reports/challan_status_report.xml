@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<report id="report_challan_status"
+			string="Challan Status"
+			model="job.order.report"
+			report_type="qweb-pdf"
+			file="job_order_process.challan_status_report_first"
+			name="job_order_process.challan_status_report_first" menu="True"/>
+
+	</data>
+</openerp>

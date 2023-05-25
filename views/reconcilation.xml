@@ -1,0 +1,90 @@
+<odoo>
+    <data>
+        <!--<record id="production_tree_view_product" model="ir.ui.view">
+			 <field name="name">Production Tree View</field>
+			 <field name="model">joborder.production</field>
+			 <field name="arch" type="xml">
+				 <tree create="false">
+                     <field name="order_ids" options="{'no_create_edit':True,'no_create':True}"/>
+					 <field name="batch_no"/>
+					 <field name="party_name"/>
+					<field name="party_date"/>
+					 <field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>
+					<field name="part_no"/>
+					 <field name="process_ids"/>
+					 <field name="unit_id"/>
+					<field name="qty" sum="tqty"/>
+					<field name="production_date"/>
+					<field name="hold_qty" sum="trej"/>
+					<field name="remark"/>
+					&lt;!&ndash; <field name="price_subtotal"/> &ndash;&gt;
+
+				 </tree>
+			 </field>
+		 </record>-->
+        <record id="reconcilation_form_view" model="ir.ui.view">
+            <field name="name">Reconcilation Form View</field>
+            <field name="model">reconcilation</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_fetch" string="Fetch" type="object" class="oe_highlight"/>
+                        <button name="action_executequery" string="Total RecIssue" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                            <group col="6">
+                                <field name="date"/>
+                                <field name="partner_id"
+                                       options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
+                                <field name="receipt_challan_id"
+                                       options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
+                            </group>
+<!--                            <group col="4">-->
+
+<!--                            </group>-->
+                        <notebook>
+                            <page string="Reconcilation">
+                                <field name="reconcilation_line_id" nolabel="1">
+                                    <tree>
+                                        <field name="partner_id"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
+                                        <field name="receipt_challan_id"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open':True}"/>
+                                        <field name="date"/>
+                                        <field name="product_id"/>
+                                        <field name="receipt_bq" sum="trbq"/>
+                                        <field name="inspection_bq" sum="tibq"/>
+                                        <field name="inspection_sq" sum="tisq"/>
+                                        <field name="inspection_rtq" sum="tirtq"/>
+                                        <field name="production_bq" sum="tpbq"/>
+                                        <field name="final_inspection_bq" sum="tfibq"/>
+                                        <field name="final_inspection_rw" sum="tfirw"/>
+                                        <field name="final_inspection_rtq" sum="tfirtq"/>
+                                        <field name="challan_issue_bq" sum="tcibq"/>
+                                        <field name="challan_issue_rtq" sum="tcirtq"/>
+                                        <field name="challan_bill_bq" sum="cbbq"/>
+                                        <field name="total" sum="ttot"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <!-- <field name="price_subtotal"/> -->
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Inspection Action -->
+        <record id="action_reconcilation" model="ir.actions.act_window">
+            <field name="name">Reconcilation</field>
+            <field name="res_model">reconcilation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="reconcilation_menu1" name="Reconcilation" parent="job_order_process.menu_mis"
+                  action="action_reconcilation" sequence="1"/>
+    </data>
+</odoo>

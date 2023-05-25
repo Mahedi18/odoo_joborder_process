@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<report id="challan_bill_report"
+			string="Invoice"
+			model="challan.bill"
+			report_type="qweb-pdf"
+			file="job_order_process.challan_bill_report_first"
+			name="job_order_process.challan_bill_report_first" menu="True"/>
+
+
+		<template id="report_challan_bill">
+     	<xpath expr="//style" position="after">
+     		<style type="text/css" >
+                    .tabla {
+                        cellpadding: 10;
+                        border: 1px solid black;
+                    }
+            </style>
+        </xpath>
+  		</template>
+
+   		<record id="paperformat_challan_bill_report" model="report.paperformat">
+        	<field name="name">Challan Bill</field>
+           	<field name="orientation">Portrait</field>
+           	<field name="margin_bottom">76</field>
+            <field name="margin_top">30</field>
+			<field name="margin_left">18</field>
+			<field name="margin_right">7</field>
+    		</record>
+
+    	<record id="challan_bill_report" model="ir.actions.report">
+        	<field name="paperformat_id" ref="paperformat_challan_bill_report"/>
+    	</record>
+
+	</data>
+</odoo>

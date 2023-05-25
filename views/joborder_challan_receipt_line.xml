@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+        <record id="job_order_challan_receipt_line_tree_view" model="ir.ui.view">
+            <field name="name">receipt.line.tree.view</field>
+            <field name="model">joborder.challan.receipt.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="party_namesss"/>
+                    <field name="order_id"/>
+                    <field name="party_datessss"/>
+                    <field name="challan_type"/>
+                    <field name="product_id"/>
+                    <field name="process"/>
+                    <field name="unit_id"/>
+                    <field name="qty" sum="tqty"/>
+                    <field name="issue_qty" sum="tiss"/>
+                    <field name="bal_qtynew" sum="tbal"/>
+                    <field name="unit_price"/>
+                    <field name="jw_subtotal" sum="tsub"/>
+
+                    <!--                    <field name="order_id">-->
+                    <!--                        <field name="partner_id"/>-->
+                    <!--                    </field>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="job_order_challan_bill_line_tree_view" model="ir.ui.view">
+            <field name="name">bill.line.tree.view</field>
+            <field name="model">challan.bill.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="party_challan"/>
+                    <field name="our_challan"/>
+                    <field name="party_namesss"/>
+                    <field name="order_id"/>
+                    <field name="party_datessss"/>
+                    <!--<field name="challan_type"/>-->
+                    <field name="product_id"/>
+                    <field name="part_no"/>
+                    <field name="unit_id"/>
+                    <field name="unit_price"/>
+                    <field name="qty" sum="tqty"/>
+                    <field name="price_subtotal" sum="tsub"/>
+
+                    <!--                    <field name="order_id">-->
+                    <!--                        <field name="partner_id"/>-->
+                    <!--                    </field>-->
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_challan_receipt_line_view" model="ir.actions.act_window">
+            <field name="name">Receipt Line</field>
+            <field name="res_model">joborder.challan.receipt.line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="job_order_challan_receipt_line_tree_view"/>
+        </record>
+
+        <record id="action_challan_bill_line_view" model="ir.actions.act_window">
+            <field name="name">Bill Line</field>
+            <field name="res_model">challan.bill.line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="job_order_challan_bill_line_tree_view"/>
+        </record>
+
+
+
+        <menuitem id="receipt_line_menu_receipt_line" name="Receipt Line" parent="job_order_process.menu_mis"
+                  action="action_challan_receipt_line_view" sequence="1"/>
+        <menuitem id="receipt_line_menu_bill_line" name="Bill Line" parent="job_order_process.menu_mis"
+                  action="action_challan_bill_line_view" sequence="2"/>
+    </data>
+</odoo>

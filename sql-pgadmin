@@ -1,0 +1,105 @@
+select * from joborder_challan_receipt where name='1756_694'
+update joborder_challan_receipt set state='draft' where name='1756_694'
+update joborder_challan_receipt set state='confirm',name='01756_694' where name='1756_694'
+
+update joborder_inspection set osp_qty=0
+
+
+delete   from joborder_inspection where qty=0
+Query returned successfully: 15089 rows affected, 812 msec execution time.
+
+update joborder_inspection set bq=qty where id!=67023
+Query returned successfully: 2863 rows affected, 123 msec execution time.
+
+78239;43952;9124;"0J8280E-02-06";11;-0.00000000000000976996261670138;602;"2019-09-27";;;;;"";"2019-10-18 07:23:46.191809";"INEC/181019/08471";;"draft";;f;;94970;;-9.76996261670138e-15;;2;"2019-10-18 07:23:46.181506";2;"2019-10-18 07:23:46.181506";0;151.4;f
+78298;43963;8820;"0N56990-10-04";11;-0.000000762939500020821;602;"2019-09-20";;;;;"";"2019-10-18 07:23:46.410053";"INEC/181019/08530";;"draft";;f;;95029;;-7.62939500020821e-07;;2;"2019-10-18 07:23:46.399239";2;"2019-10-18 07:23:46.399239";0;48.9500007629395;f
+78788;44081;8278;"0A8625A-01-01";11;-0.359999999999999;602;"2019-06-20";;;;;"";"2019-10-18 07:23:48.514201";"INEC/181019/09020";;"draft";;f;;95519;;-0.359999999999999;;2;"2019-10-18 07:23:48.50228";2;"2019-10-18 07:23:48.50228";0;221.16;f
+78842;44094;8297;"0A8623B-01-01";11;-0.00000000000000976996261670138;602;"2019-06-13";;;;;"";"2019-10-18 07:23:48.771889";"INEC/181019/09074";;"draft";;f;;95573;;-9.76996261670138e-15;;2;"2019-10-18 07:23:48.764784";2;"2019-10-18 07:23:48.764784";0;454.45;f
+78945;44115;8820;"0N56990-10-04";11;-0.00000000000000976996261670138;602;"2019-06-01";;;;;"";"2019-10-18 07:23:49.201059";"INEC/181019/09177";;"draft";;f;;95676;;-9.76996261670138e-15;;2;"2019-10-18 07:23:49.187375";2;"2019-10-18 07:23:49.187375";0;88.9;f
+79007;44139;9120;"0N8C48A-01-01";11;-0.00000000000000976996261670138;602;"2019-05-18";;;;;"";"2019-10-18 07:23:49.50702";"INEC/181019/09239";;"draft";;f;;95738;;-9.76996261670138e-15;;2;"2019-10-18 07:23:49.503762";2;"2019-10-18 07:23:49.503762";0;85.85;f
+49990;30401;9012;"";10;-153;582;"2019-09-27";;;;;"";"2019-10-13 12:47:29.452581";"INEC/131019/07093";;"draft";;f;;65863;;-153;;2;"2019-10-13 12:47:29.451043";2;"2019-10-13 12:47:29.451043";0;219;f
+51127;31084;9162;"";11;-0.000000000000014210854715202;599;"2019-06-29";;;;;"";"2019-10-13 13:44:13.896147";"INEC/131019/08230";;"draft";;f;;67000;;-1.4210854715202e-14;;2;"2019-10-13 13:44:13.895127";2;"2019-10-13 13:44:13.895127";0;70.6;f
+51161;31103;9162;"";11;-0.000000000000007105427357601;599;"2019-05-28";;;;;"";"2019-10-13 13:44:14.023529";"INEC/131019/08264";;"draft";;f;;67034;;-7.105427357601e-15;;2;"2019-10-13 13:44:14.021912";2;"2019-10-13 13:44:14.021912";0;57.4;f
+51172;31110;9162;"";11;-0.000000000000007105427357601;599;"2019-05-17";;;;;"";"2019-10-13 13:44:14.07676";"INEC/131019/08275";;"draft";;f;;67045;;-7.105427357601e-15;;2;"2019-10-13 13:44:14.074373";2;"2019-10-13 13:44:14.074373";0;52.4;f
+54493;33586;9022;"";10;-8;543;"2019-10-04";;;;;"";"2019-10-15 11:48:22.716762";"INEC/151019/00010";;"draft";;f;;70366;;-8;;2;"2019-10-15 11:48:22.716055";2;"2019-10-15 11:48:22.716055";0;44;f
+78534;44016;8294;"A86350-01-01";11;-0.00000000000000976996261670138;602;"2019-08-10";;;;;"";"2019-10-18 07:23:47.473452";"INEC/181019/08766";;"draft";;f;;95265;;-9.76996261670138e-15;;2;"2019-10-18 07:23:47.460224";2;"2019-10-18 07:23:47.460224";0;108;f
+69574;40380;8160;"81710A83B00";10;-200;514;"2019-04-10";;;;;"";"2019-10-17 14:50:20.063651";"INEC/171019/04897";;"draft";;f;;86305;;-200;;2;"2019-10-17 14:50:20.052998";2;"2019-10-17 14:50:20.052998";0;600;f
+
+
+=================
+
+select * from joborder_inspection where remark is not  null
+
+select * from my_itemgroup
+
+select P.id from joborder_inspection I
+JOIN my_product P ON I.product_id=P.id
+where remark is   null
+And P.itemgroup_id=8
+
+GROUP BY P.id
+
+UPDATE  joborder_inspection I SET rejected_qty=I.qty,remark='Packing Product Insp Done Auto',state='confirm'
+where I.product_id  not in (9023,9025,8770,9024,9272,8306,9022) and remark is null
+
+UPDATE  joborder_inspection I SET rejected_qty=I.qty,remark='jowwork Product Insp Done Auto',state='confirm'
+where I.product_id  not in (9023,9025,8770,9024,9272,8306,9022) and remark='Packing Product Insp Done Auto'
+
+UPDATE  joborder_inspection I SET expected_qty=I.qty,rejected_qty=0,remark='jowwork Product Insp Done Auto'
+where I.product_id  not in (9023,9025,8770,9024,9272,8306,9022)
+
+UPDATE  joborder_inspection I SET state='confirm'
+
+JOIN my_product P ON I.product_id=P.id
+where remark is   null
+And P.itemgroup_id=8
+
+
+
+select * from job_order inner join
+job_order_line on job_order.id=job_order_line.order_id
+
+select A.name,A.date, C.name,count(a.id) TotProducts from job_order A
+inner join job_order_line B on A.id=B.order_id
+inner join my_partner C on A.partner_id=C.id
+group by A.name,C.name,A.date
+
+order by C.name
+
+
+
+
+
+
+select * from joborder_challan_receipt where name='3245_694';
+select * from joborder_challan_receipt_line where order_id=41875 and issue_qty>0;
+update joborder_challan_receipt_line set bal_qtynew=1,issue_qty=0 where order_id=41875 and issue_qty>0;
+update joborder_challan_receipt set total_bal=11,total_iss=0 where name='3245_694';
+delete from joborder_inspection where id=72707;
+select * from joborder_challan where name='10165';
+
+
+
+delete  from joborder_inspection where qty=0;
+
+
+
+delete from joborder_challan where name='10165';
+
+
+
+testing
+
+
+
+SELECT itemgroup_id,* FROM 	 joborder_inspection INNER JOIN my_product
+ON joborder_inspection.product_id = my_product.id  where my_product.itemgroup_id=8 limit 10;
+
+SELECT sum(qty), count(id) FROM 	 joborder_inspection INNER JOIN my_product
+ON joborder_inspection.product_id = my_product.id  where my_product.itemgroup_id=8 limit 10;
+
+4/11/2019
+UPDATE job_order_line AS j
+SET process_id = p.process_name
+FROM my_product AS p
+WHERE j.product_id = p.id

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="stock_register_report_new">
+			<t t-set="data_report_margin_top" t-value="0"/>
+			<t t-set="data_report_header_spacing" t-value="0"/>
+			<t t-call="web.html_container">
+
+			<t t-foreach="docs" t-as="o">
+				<div class="header">
+				</div>
+				<div class="footer">
+				</div>
+
+				<t t-call="web.external_layout">
+
+				<div class="page" style="border:none;">
+
+					<center><h1><strong><span t-field="o.user_id.company_id.name"/></strong></h1>
+                    <h3><strong>Stock Register</strong></h3>
+                    <h3><strong>From:<span t-field="o.from_date"/>  To:<span t-field="o.to_date"/> </strong></h3>
+				</center>
+
+                    <style>
+						table, th,td{
+						border: 1px solid black;
+						border- collape:collape;
+						}
+					</style>
+					<style type="text/css">
+						table { page-break-inside:auto }
+   						tr    { page-break-inside:avoid; page-break-after:auto }
+					</style>
+					<t t-foreach="o.get_party()" t-as="p">
+						<p>Party : <span t-esc="o.get_name_party_id(p)"/></p>
+
+                    <table STYLE=" width: 100%; text-align: center;">
+						<style>
+						th{text-align: center;
+						}
+						</style>
+
+						<tr style="border-bottom: 1px solid black; border-top: 1px solid black;">
+					<th>Challan No.</th>
+    				<th>Challan Date</th>
+					<th>Part Desc.</th>
+					<th>Rec. Qty</th>
+					<th>Issue Qty</th>
+					<th>Rem. Qty</th>
+
+    			</tr>
+<!--						<t t-foreach="doc.line_ids.sorted(key=lambda x: x.date)" t-as="o"> -->
+                        <t t-foreach="o.all_incomming_new(p)" t-as="l">
+
+							<tr>
+
+								<td><span t-esc="o.get_challan(l)"/></td>
+								<td><span t-esc="o.get_date(l)"/></td>
+								<td><span t-esc="o.get_part_name(l)"/></td>
+								<td><span t-esc="o.get_receive_qty(l)"/></td>
+								<td></td>
+								<td><b><span t-esc="o.get_receive_qty1(l)"/></b></td>
+
+							</tr>
+								<t t-if="o.get_issue(o.get_challan(l))">
+									<t t-foreach="o.get_issue(o.get_challan(l))" t-as="v">
+										<t t-if="o.get_issue_challan_product(v,o.get_part_name(l))">
+											<tr>
+
+											<td><span t-esc="o.get_issue_challan(v)"/></td>
+											<td><span t-esc="o.get_issue_challan_date(v)"/></td>
+												<td></td>
+												<td></td>
+											<td><span t-esc="o.get_issue_qty(v,o.get_part_name(l))"/></td>
+												<td></td>
+				<!--							<td><b><span t-esc="o.get_rem_qty(o.get_issue_qty(v,o.get_part_name(l)),o.get_receive_qty(l))"/></b></td>-->
+
+				<!--								<td><b><span t-esc="o.get_rem_qty(o.get_name_party(p),o.get_part_name(l),o.get_challan(l),o.get_receive_qty(l))"/></b></td>-->
+										</tr>
+										</t>
+									</t>
+								</t>
+                        </t>
+						<tr>
+								<td>TOTAL</td>
+								<td></td>
+								<td></td>
+								<td><b><span t-esc="o.get_total_receive(p)"/></b></td>
+								<td><b><span t-esc="o.get_total_issue(p)"/></b></td>
+								<td><b><span t-esc="(o.get_total_receive(p) - o.get_total_issue(p))"/></b></td>
+
+                        </tr>
+
+
+				</table>
+					</t>
+
+				</div>
+				</t>
+
+			</t>
+			</t>
+
+	  </template>
+	</data>
+</odoo>

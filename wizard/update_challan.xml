@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="update_challan_view11" model="ir.ui.view">
+            <field name="name">update challan view</field>
+            <field name="model">update.challan</field>
+            <field name="arch" type="xml">
+                <form>
+				  <footer>
+					   <button class="btn-primary"  name="update_challan_receipt" string="Update Receipt" type="object"/>
+
+					   <button class="btn-primary"  name="update_challan_issue" string="Update Isuue" type="object"/>
+					  <button class="btn-primary"  name="update_auto_production" string="Auto Production Create" type="object"/>
+					<button class="btn-primary"  name="update_auto_inspection" string="Auto Inspection Update" type="object"/>
+					  <button class="btn-default" special="cancel" string="Cancel"/>
+	              </footer>
+			</form>
+            </field>
+        </record>
+
+        <record id="action_wizard_update_challan_view111" model="ir.actions.act_window">
+			<field name="name">Update Challan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">update.challan</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="update_challan_view11"/>
+			<field name="target">new</field>
+		</record>
+
+        <menuitem id="challan_update_receipt_menu1" name="Update" parent="job_order_process.menu_mis" action="action_wizard_update_challan_view111" sequence="20"/>
+    </data>
+</odoo>

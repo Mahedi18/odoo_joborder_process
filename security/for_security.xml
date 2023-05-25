@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record model="ir.module.category" id="module_for_job_order_process">
+            <field name="name">Job Order Process</field>
+            <field name="sequence">0</field>
+            <field name="visible" eval="0"/>
+        </record>
+
+<!--        <record id="group_job_order_job_user_receipt" model="res.groups">-->
+        <record id="group_joborder_user" model="res.groups">
+            <field name="name">Job Order User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+<!--        <record id="group_job_order_job_confirm" model="res.groups">-->
+        <record id="group_joborder_confirm" model="res.groups">
+            <field name="name">Job Order Confirm User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+<!--        <record id="group_job_order_user_receipt" model="res.groups">-->
+        <record id="group_challan_receipt_user" model="res.groups">
+            <field name="name">Receipt User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+<!--        <record id="group_job_order_confirm" model="res.groups">-->
+        <record id="group_challan_receipt_confirm" model="res.groups">
+            <field name="name">Receipt User Confirm</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+
+
+
+
+        <record id="group_job_order_process" model="res.groups">
+            <field name="name">Job Order Process</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+                <record id="group_job_order_process_readonly" model="res.groups">
+            <field name="name">Job Order Process Readonly</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+        <record id="group_job_order_process_newproduction" model="res.groups">
+            <field name="name">Job Order Process New Production</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+
+<!--group_job_order_process_newproduction-->
+
+        <record id="group_job_order_process_newfinalinspection" model="res.groups">
+            <field name="name">Job Order Process New Final Inspection</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+<!--        group_job_order_process_newfinalinspection-->
+
+
+        <record id="group_job_order_challan_confirm" model="res.groups">
+            <field name="name">Issue User Confirm</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+<!--        <record id="group_job_order_challan_issue_user_receipt" model="res.groups">-->
+        <record id="group_challan_issue_user" model="res.groups">
+            <field name="name">Issue Challan User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+
+
+
+
+        <record id="group_job_order_production_user" model="res.groups">
+            <field name="name">Production User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_job_order_production_user2" model="res.groups">
+            <field name="name">Production User2</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_job_order_production_user_confirm" model="res.groups">
+            <field name="name">Production User Confirm</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_job_order_final_inspection_user" model="res.groups">
+            <field name="name">Final Inspection User</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_job_order_final_inspection_user2" model="res.groups">
+            <field name="name">Final Inspection User 2</field>
+            <field name="category_id" ref="module_for_job_order_process"/>
+            <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+        <!--                           <record id="group_job_order_tallyuser" model="res.groups">-->
+        <!--                               <field name="name">Tally User</field>-->
+        <!--                               <field name="category_id" ref="module_for_job_order_process"/>-->
+        <!--                               <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>-->
+        <!--                           </record>-->
+
+        <record id="process_production_user1" model="ir.rule">
+            <field name="name">production process user 1</field>
+            <field name="model_id" ref="job_order_process.model_joborder_inspection"/>
+            <field name="domain_force">[('process_idsss.name','=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_production_user'))]"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+<!--        ==============for production user in production=========-->
+
+        <record id="production_process_production_user1" model="ir.rule">
+            <field name="name">production process user 1</field>
+            <field name="model_id" ref="job_order_process.model_joborder_production"/>
+            <field name="domain_force">[('process_ids.name','=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_production_user'))]"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+<!--        ===========================-->
+
+        <record id="process_production_user2" model="ir.rule">
+            <field name="name">production process user 2</field>
+            <field name="model_id" ref="job_order_process.model_joborder_inspection"/>
+            <field name="domain_force">[('process_idsss.name','!=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_production_user2'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+
+        </record>
+        <!--        ==============for pord user 2 in production=============-->
+        <record id="production_process_production_user2" model="ir.rule">
+            <field name="name">production process user 2</field>
+            <field name="model_id" ref="job_order_process.model_joborder_production"/>
+            <field name="domain_force">[('process_ids.name','!=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_production_user2'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+        <!--        ===========================-->
+
+        <record id="final_inspection_process_production_user1" model="ir.rule">
+            <field name="name">final inspection production process user 1</field>
+            <field name="model_id" ref="job_order_process.model_joborder_production"/>
+            <field name="domain_force">[('process_ids.name','=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_final_inspection_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="final_inspection_process_production_user2" model="ir.rule">
+            <field name="name">final inspection production process user 2</field>
+            <field name="model_id" ref="job_order_process.model_joborder_production"/>
+            <field name="domain_force">[('process_ids.name','!=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_final_inspection_user2'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="final_inspection_process_final_user1" model="ir.rule">
+            <field name="name">final inspection final process user 1</field>
+            <field name="model_id" ref="job_order_process.model_final_inspection"/>
+            <field name="domain_force">[('process_ids.name','=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_final_inspection_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="final_inspection_process_final_user2" model="ir.rule">
+            <field name="name">final inspection final process user 2</field>
+            <field name="model_id" ref="job_order_process.model_final_inspection"/>
+            <field name="domain_force">[('process_ids.name','!=', 'CED')]</field>
+            <field name="groups" eval="[(4, ref('job_order_process.group_job_order_final_inspection_user2'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+    </data>
+</odoo>
+                   

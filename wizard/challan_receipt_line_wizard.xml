@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_receipt_line_wizard" model="ir.ui.view">
+            <field name="name">Wizard</field>
+            <field name="model">challan.line.wizard.receipt</field>
+            <field name="arch" type="xml">
+                <form string="Receipt Line">
+                   <field name="receipt_wizard_id" widget="many2many_list">
+                       <tree>
+                           <field name="job_order_id"/>
+							<field name="product_id"/>
+							<field name="part_no"/>
+							<field name="process"/>
+						    <field name="qty" sum="Total Qty"/>
+							<field name="inspected_ok_qty_line" sum="InspOkQty"/>
+							<field name="inspected_sort_qty_line" sum="InspShQty"/>
+							<field name="inspected_rejected_qty_line" sum="InspRejQty"/>
+							<field name="production_insp_qty_line" sum="Uinsp"/>
+							<field name="production_rem_qty_line"/>
+							<field name="production_rework_qty_line" sum="rework"/>
+							<field name="production_notok_qty_line" sum="prodnotok"/>
+							<field name="production_ok_qty_line" sum="ProdOkQty"/>
+							<field name="production_desp_qty_line" sum="DespQty"/>
+                       </tree>
+                   </field>
+                    <footer>
+                        <button name="" type="object" string="Select" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_receipt_line" model="ir.actions.act_window">
+			<field name="name">Receipt</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">challan.line.wizard.receipt</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_receipt_line_wizard"/>
+			<field name="target">new</field>
+		</record>
+
+        <menuitem id="challan_update_receipt_menu11" name="Update1" parent="job_order_process.menu_mis" action="action_wizard_receipt_line" sequence="21"/>
+    </data>
+</odoo>

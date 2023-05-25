@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!--Odoo Views :   TREE,FORM,KANBAN,CALANDER,PIVOT,GRAPH,GANTT/TIMELINE,DASHBORAD VIEW-->
+<odoo>
+    <data>
+        <record id="jobcard_tree" model="ir.ui.view">
+            <field name="name">JobCard</field>
+            <field name="model">jobcard</field>
+            <field name="arch" type="xml">
+                <tree create="false"   decoration-success="state=='done'">
+<!--                    decoration-info="state=='confirm'"-->
+                    <field name="Partner_id"/>
+                    <field name="name"/>
+                    <field name="prduct_id"/>
+                    <field name="part_no"/>
+                    <field name="process_id"/>
+                    <field name="qty_rec" sum="trec"/>
+                    <field name="qty_insp" sum="ti"/>
+                    <field name="qty_prod" sum="tp"/>
+                    <field name="qty_finsp" sum="tfi"/>
+                    <field name="qty_iss" sum="tiss"/>
+                    <field name="qty_bal" sum="tbal"/>
+                    <field name="joborder_challan_receipt_line_id"/>
+<!--                    <field name="joborder_challan_receipt_line_id.order_id.name"/>-->
+<!--                    <field name="joborder_challan_receipt_line_id.order_id.date"/>-->
+<!--                    <field name="joborder_challan_receipt_line_id.product_id.part_no"/>-->
+
+
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="jobcard_form" model="ir.ui.view">
+            <field name="name">Jobcard.form</field>
+            <field name="model">jobcard</field>
+            <field name="arch" type="xml">
+                <form string="Job Card">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                    <field name="Partner_id"/>
+                    <field name="prduct_id"/>
+                                                    <field name="joborder_challan_receipt_line_id"/>
+                    <field name="process_id"/>
+
+
+                            </group>
+                            <group>
+                                                    <field name="qty_iss"/>
+                    <field name="qty_rec"/>
+                    <field name="qty_insp"/>
+                    <field name="qty_prod"/>
+                    <field name="qty_finsp"/>
+                    <field name="qty_iss"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="jobcard_search_view" model="ir.ui.view">
+           <field name="name">Jobcard Search</field>
+           <field name="model">jobcard</field>
+            <field name="arch" type="xml">
+                <search string="Jobcard">
+              <field name="name" string="string" domain="[()]"/>
+            </search>
+           </field>
+        </record>
+        <record id="jobcard_action" model="ir.actions.act_window">
+            <field name="name">JOB CARD ACTION</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">jobcard</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="jobcard_menu1" name="Job Card" parent="job_order_process.my_joborder_menu1" action="jobcard_action" sequence="20"/>
+
+
+
+    </data>
+</odoo>

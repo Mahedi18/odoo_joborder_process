@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- joborder Form View -->
+        <record id="job_order_form_view1" model="ir.ui.view">
+            <field name="name">Job order</field>
+            <field name="model">job.order</field>
+            <field name="arch" type="xml">
+                <form string="job order form">
+                    <!--<header>-->
+                    <!--<button name="action_issue_material" string="Issue Material" type="object" class="oe_highlight"/>-->
+                    <!--</header>-->
+                    <header>
+                        <!--                    <button name="action_confirm" id="action_confirm" groups="job_order_process.group_job_order_job_confirm" string="Confirm" class="btn-primary" type="object" states="draft"/>-->
+                        <button name="action_confirm" id="action_confirm"
+                                groups="job_order_process.group_job_order_process,job_order_process.group_joborder_confirm"
+                                string="Confirm" class="btn-primary" type="object" states="draft"/>
+                        <!--					<button name="action_close" type="object" string="Close" states="confirm" class="oe_highlight"/>-->
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_challan_receive_history" type="object"
+                                    attrs="{'invisible':[('challan_receipt_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="challan_receipt_count" widget="statinfo" string="Challan Receive"/>
+                            </button>
+                            <button name="open_challan_issue_history" type="object"
+                                    attrs="{'invisible':[('challan_issue_count','=',0)]}" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="challan_issue_count" widget="statinfo" string="Challan Issue"/>
+                            </button>
+                        </div>
+                        <h1>JOB ORDER NO. :
+                            <field name="name" style="color:blue;background:white;" class="oe_inline"/>
+                        </h1>
+                        <!--					 attrs="{'readonly': [('state','not in', 'draft')]}"-->
+                        <group col="4" colspan="4">
+                            <group col="2" colspan="2">
+                                <field name="partner_id"/>
+                                <!--						attrs="{'readonly': [('state','not in', 'draft')]}"-->
+                                <field name="payment_term" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="remark"/>
+                                <!--						attrs="{'readonly': [('state','not in', 'draft')]}"-->
+
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="date" attrs="{'readonly': [('state','not in', 'draft')]}"/>
+                                <field name="id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Lines">
+                                <field name="joborder_line">
+                                    <!--									 attrs="{'readonly': [('state','not in', 'draft')]}"-->
+                                    <tree string="job order line" editable="bottom">
+                                        <!--<field name="product_id" options="{'no_create_edit':True,'no_create':True}"/>-->
+                                        <field name="product_id"/>
+                                        <field name="part_no"/>
+                                        <field name="per_piece" string="Pking"/>
+                                        <field name="packing_id"/>
+                                        <field name="process_id"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open': True,}" />
+                                        <field name="hsn_code" string="HSN"/>
+                                        <field name="sac_code" string="SAC"/>
+                                        <field name="qty"/>
+                                        <field name="unit_id"
+                                               options="{'no_create_edit':True,'no_create':True,'no_open': True,}" />
+                                        <field name="unit_price" string="Rate(jw)"/>
+                                        <field name="material_price" string="Rate(M)"/>
+                                        <field name="tax_id" options="{'no_create_edit':False,'no_create':False}"
+                                               string="Gst" />
+                                        <field name="surface_area"/>
+                                        <field name="price_subtotal" string="Subtotal"/>
+
+                                    </tree>
+                                </field>
+
+
+                                <group class="oe_subtotal_footer oe_right" colspan="2">
+
+                                    <field name="amount_untaxed"/>
+                                    <field name="tax_value"/>
+                                    <!--<field name="total_amount"/>-->
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                           widget="monetary"/>
+
+
+                                </group>
+                            </page>
+
+
+                        </notebook>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+
+        <!-- Joborder Tree View -->
+
+        <record id="job_order_tree_view1" model="ir.ui.view">
+            <field name="name">Job Order</field>
+            <field name="model">job.order</field>
+            <field name="arch" type="xml">
+                <tree string="Job Order Tree" create="true" decoration-success="state=='confirm'">
+                    <field name="id"/>
+<!--                    <field name="mast_oldid"/>-->
+                    <field name="name"/>
+                    <field name="date"/>
+
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <field name="payment_term"/>
+                    <field name="remark"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="challan_search_view" model="ir.ui.view">
+            <field name="name">Challan filter record</field>
+            <field name="model">job.order</field>
+            <field name="arch" type="xml">
+                <search string="Challan">
+                    <field name="partner_id" filter_domain="[('partner_id','ilike',self)]"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <filter name="confirm" string="Confirm" domain="[('state', '=', 'confirm')]"/>
+                    <filter name="done" string="Done" domain="[('state', '=', 'done')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="partner_id" string="Party Name" context="{'group_by':'partner_id'}"/>
+                        <filter name="name" string="Name" context="{'group_by':'name'}"/>
+                        <filter name="date" string="Date" context="{'group_by':'date'}"/>
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Joborder Action -->
+        <record id="action_my_job_order" model="ir.actions.act_window">
+            <field name="context">
+        {'readonly_by_pass': ['process_id', 'unit_id','tax_id']}
+    </field>
+            <field name="name" >Job Order</field>
+            <field name="res_model">job.order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_model">tree,form</field>
+            <field name="view_id" ref="job_order_tree_view1"/>
+            <field name="search_view_id" ref="challan_search_view"/>
+        </record>
+
+        <record id="mypartner_inherit_view" model="ir.ui.view">
+            <field name="name">my.partner.inherit</field>
+            <field name="model">my.partner</field>
+            <field name="inherit_id" ref="mymastertest.my_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="after">
+                    <field name="billing_mode"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Joborder Menu -->
+
+        <menuitem id="my_joborder_menu3" name="Job Order" parent="my_joborder_menu1" action="action_my_job_order"
+                  sequence="1"/>
+
+
+    </data>
+</odoo>

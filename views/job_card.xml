@@ -1,0 +1,164 @@
+<odoo>
+    <data>
+
+        <report id="report_joborder_job_card"
+			string="Job Card"
+			model="joborder.challan.receipt"
+			report_type="qweb-pdf"
+			file="job_order_process.job_card_report"
+			name="job_order_process.job_card_report" menu="True"/>
+
+        <template id="job_card_report">
+            <t t-call="web.html_container">
+<!--                <t t-set="data_report_margin_top" t-value="10"/>-->
+<!--                <t t-set="data_report_header_spacing" t-value="9"/>-->
+                <t t-foreach="docs" t-as="o">
+                    <div class="article">
+                    <t t-foreach="o.get_data()" t-as="a">
+                    <style>
+                        .rectangle {
+                        height: 50%;
+                        width: 100%;
+                        background-color: #666666;
+                        float:left;
+                        margin-top: 47px;
+                        }
+                    </style>
+                    <table class="table-condensed" style="border:1px solid black;border-collapse: collapse;" width="100%">
+                        <tbody>
+                            <tr>
+                                <td colspan="2" style="width:25%;padding-left:10px;padding-bottom:10px;border:1px solid black;">
+<!--									<div style="float:left;width:10%">-->
+										<img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % to_text(res_company.logo)" width="200" style="max-height:70px;"/>
+<!--									</div>-->
+								</td>
+                                <td colspan="5" style="text-align:center;border:1px solid black;">
+                                    <span><t t-esc="res_company.name"/></span><br/>
+                                    <span><t t-if="res_company.street"><t t-esc="res_company.street"/>,</t></span>
+                                    <span><t t-if="res_company.street2"><t t-esc="res_company.street2"/>,</t></span>
+                                    <span><t t-if="res_company.city"><t t-esc="res_company.city"/>,</t></span>
+                                    <span><t t-if="res_company.zip"><t t-esc="res_company.zip"/></t></span>
+                                </td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center;font-weight:bold;border:1px solid black;">TRACEABILITY TAG</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center;border:1px solid black;">INCOMING MATERIAL DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Customer Name</td>
+                                <td colspan="5"><t t-esc="o.partner_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Product Name</td>
+                                <td colspan="5"><t t-esc="a.get('product_name')"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Part No.</td>
+                                <td colspan="3"><t t-esc="a.get('part_no')"/></td>
+                                <td colspan="2">Qty.</td>
+                                <td colspan="3"><t t-esc="a.get('qty')"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Challan No.</td>
+                                <td colspan="3"><t t-esc="o.name"/></td>
+                                <td colspan="2">Date</td>
+                                <td colspan="3"><t t-esc="o.date"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Incoming Lot No.</td>
+                                <td colspan="3"><t t-esc="a.get('lot')"/></td>
+                                <td colspan="2">Time</td>
+                                <td colspan="3">.....</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Next Process Name</td>
+                                <td colspan="5"><t t-esc="a.get('next')"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center">Incoming Incharge Sign</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center;font-weight:bold;border:1px solid black;">SURFACE TREATMENT DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 80%;" colspan="7" rowspan="2">
+                                    <p>Type of Surface Treatment: <t t-esc="a.get('next')"/></p>
+                                    <p>Production Batch No.:<t t-esc="a.get('batch')"/></p>
+                                    <p>Date:<t t-esc="a.get('inspection_date')"/></p>
+                                    <p>Qty.:<t t-esc="a.get('inspection_qty')"/></p>
+                                    <p style="text-align:center">Supervisor Sign</p>
+                                </td>
+                                <td colspan="3" style="height: 25%;"><pre/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <div class="rectangle">
+                                        <p style="text-align:center;color:white;">4M CHANGE</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center;font-weight:bold;border:1px solid black;">FINAL INSPECTION DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Inspection Date</td>
+                                <td colspan="5">................................</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Check Qty.</td>
+                                <td colspan="3">...........</td>
+                                <td colspan="2">OK Qty.</td>
+                                <td colspan="3">..........</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">NG Qty.</td>
+                                <td colspan="3">.......</td>
+                                <td colspan="2">REWORk Qty.</td>
+                                <td colspan="3">.........</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Quality Ins. Name</td>
+                                <td colspan="3">...........</td>
+                                <td colspan="2">Sup Sign</td>
+                                <td colspan="3">.....</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" style="text-align:center;font-weight:bold;border:1px solid black;">DISPATCH DETAILS</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Dispatch Date</td>
+                                <td colspan="5">...........</td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">Dispatch Qty.</td>
+                                <td colspan="5">................</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Invoice No.</td>
+                                <td colspan="3">..........</td>
+                                <td colspan="2">Invoice Date</td>
+                                <td colspan="3">...........</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">Vehicle No.</td>
+                                <td colspan="3">............</td>
+                                <td colspan="5"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="5"></td>
+                                <td colspan="5">Dispatch Incharge Sign</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                         <p style="page-break-before:always;"> </p>
+                </t>
+                    </div>
+                </t>
+            </t>
+
+        </template>
+    </data>
+</odoo>
