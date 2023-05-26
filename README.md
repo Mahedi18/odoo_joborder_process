@@ -1,1 +1,1 @@
-# odoo_joborder_process
+# odoo_manufacturing_process
